@@ -1,0 +1,57 @@
+<div class="container"><br><br>
+    <h2>Nueva Tarea:</h2>
+  <div class="d-flex justify-content-end">
+    <form class="form-inline" action="/task/new" method="post">
+      <div class="form-group">
+        <input type="text" class="form-control" name="task" placeholder="Descripción de Tarea">
+      </div>
+      <button type="submit" class="btn btn-outline-primary"><i class="fas fa-thumbs-up"></i></button>
+    </form>
+  </div>
+  <div class="jumbotron">
+    <div class="card">
+      <div class="card-header" id = "panel-heading-task">
+          <h1 class="card-title">Check list</h1>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <tbody>
+            <% @task.each do |t| %>
+              <tr>
+                <td class="col-3 table-text">
+                  <% if t["done"] %>
+                    <i class="far fa-check-circle"></i>
+                    <p class="text-task task-done">
+                      <%= t["title"] %>
+                    </p>
+                  <% else %>
+                    <i class="far fa-circle"></i>
+                    <p class="text-task">
+                      <%= t["title"] %>
+                    </p>
+                  <% end %>
+                </td>
+                <td class="col-3">
+                  <% if !t["done"] %>
+                    <form class="form-inline" action="/task/<%= t["id"] %>/done" method="post">
+                      <input type="hidden" name="_method" value="patch">
+                      <button type="submit" class="btn btn-success">
+                        <i class="fas fa-tasks"></i>
+                      </button>
+                    </form>
+                  <% end %>
+                  <form class="form-inline" action="/task/<%= t["id"] %>/delete" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="btn btn-danger">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>  
+  </div>
+</div>
